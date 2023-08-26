@@ -2,6 +2,11 @@ const redux = require('redux')
 const bindActionCreators = redux.bindActionCreators
 const createStore = redux.createStore
 const combineReducers = redux.combineReducers
+const applyMiddleware = redux.applyMiddleware
+
+
+const reduxLogger = require('redux-logger')
+const logger = reduxLogger.createLogger()
 
 
 
@@ -42,9 +47,9 @@ const restokeIcecream = (qty = 1) => {
 // (previousState,action) => newState;
 
 // const initalstate = {
-//     numOfCakes: 10,
-//     numOfIcecream: 10
-//     // otherproperty:0,
+// numOfCakes: 10,
+// numOfIcecream: 10
+// // otherproperty:0,
 // }
 
 
@@ -104,34 +109,32 @@ const iceCreamReducer = (state = initalIcecreamState, action) => {
  })
 // const store = createStore(reducer)
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer , applyMiddleware(logger))
 
 // const state = store.getState()
 // console.log(state.cake.numOfCakes)
 
 console.log('Initial state', store.getState())
-// store.subscribe(()=>console.log("Updated state" , store.getState()))    subscribe method
-const unsubscribe = store.subscribe(() => console.log("Updated state", store.getState()))
+// store.subscribe(()=>console.log("Updated state" , store.getState())) subscribe method
+// const unsubscribe = store.subscribe(() => console.log("Updated state", store.getState()))
 
 // store.dispatch(orderCake())
 // store.dispatch(orderCake())
 // store.dispatch(orderCake())
 // store.dispatch(restokeCakes(3))
 
-const action = bindActionCreators({ orderCake, restokeCakes  , orderIcecream , restokeIcecream}, store.dispatch)
+const action = bindActionCreators({ orderCake, restokeCakes , orderIcecream , restokeIcecream}, store.dispatch)
 action.orderCake();
 action.orderCake();
-action.orderCake();
-action.restokeCakes(3);
-action.orderIcecream();
-action.orderIcecream();
-action.restokeIcecream(3);
+// action.orderCake();
+// action.restokeCakes(3);
+// action.orderIcecream();
+// action.orderIcecream();
+// action.restokeIcecream(3);
 
 
-unsubscribe()
+// unsubscribe()
 
 // after unsubscribe if we dispatch action to the store then it will not log bacause we unsubscribe the changes to the store
 // store.dispatch(orderCake())
 // console.log('unsubscribe state',store.getState())
-
-
