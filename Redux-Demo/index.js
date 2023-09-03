@@ -54,11 +54,11 @@ const restokeIcecream = (qty = 1) => {
 
 
 const initalCakeState = {
-    numOfCakes:10
+    numOfCakes: 10
 }
 
 const initalIcecreamState = {
-    numOfIcecream:10
+    numOfIcecream: 10
 }
 
 const cakeReducer = (state = initalCakeState, action) => {
@@ -83,7 +83,7 @@ const cakeReducer = (state = initalCakeState, action) => {
 
 const iceCreamReducer = (state = initalIcecreamState, action) => {
     switch (action.type) {
-      
+
         case ICESREAM_ORDERED:
             return {
                 ...state, // copy of the state object because the state can have more properties
@@ -94,7 +94,11 @@ const iceCreamReducer = (state = initalIcecreamState, action) => {
                 ...state,
                 numOfIcecream: state.numOfIcecream + action.payload,
             }
-
+        case CAKE_ORDERED:
+            return {
+                ...state, // copy of the state object because the state can have more properties
+                numOfIcecream: state.numOfIcecream - 1,
+            }
         default:
             return state
             break;
@@ -102,14 +106,14 @@ const iceCreamReducer = (state = initalIcecreamState, action) => {
 }
 
 // const store = createStore(reducer)
- //for multiple reducer combine follow below code
- const rootReducer = combineReducers({
-    cake:cakeReducer,
-    iceCream:iceCreamReducer
- })
+//for multiple reducer combine follow below code
+const rootReducer = combineReducers({
+    cake: cakeReducer,
+    iceCream: iceCreamReducer
+})
 // const store = createStore(reducer)
 
-const store = createStore(rootReducer , applyMiddleware(logger))
+const store = createStore(rootReducer, applyMiddleware(logger))
 
 // const state = store.getState()
 // console.log(state.cake.numOfCakes)
@@ -123,7 +127,7 @@ console.log('Initial state', store.getState())
 // store.dispatch(orderCake())
 // store.dispatch(restokeCakes(3))
 
-const action = bindActionCreators({ orderCake, restokeCakes , orderIcecream , restokeIcecream}, store.dispatch)
+const action = bindActionCreators({ orderCake, restokeCakes, orderIcecream, restokeIcecream }, store.dispatch)
 action.orderCake();
 action.orderCake();
 // action.orderCake();
